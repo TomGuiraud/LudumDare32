@@ -4,11 +4,20 @@ using System.Collections.Generic;
 
 public class GameManagerScript : MonoBehaviour {
 
+	public static GameManagerScript _instance;
+
 	public int _playerNumber = 4;
 	public GameObject _trainPrefab;
+	public GameObject _wagonPrefab;
 	private GameObject[] _allTrains;
 
 	public static List<RailRoadScript> _railRoadScript;
+
+	void Awake (){
+		if (_instance == null) {
+			_instance = this;
+		}
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -24,11 +33,13 @@ public class GameManagerScript : MonoBehaviour {
 		_allTrains = new GameObject[_playerNumber]; 
 		for (int i = 0; i < _playerNumber; i++) {
 			RailRoadScript tmpRailBlock = _railRoadScript[Random.Range(0, _railRoadScript.Count)];
-			print (this.transform.name + " : " + tmpRailBlock);
-
 			_allTrains[i] = Instantiate(_trainPrefab, tmpRailBlock.transform.position, Quaternion.identity) as 	GameObject;
+			_allTrains[i].name = "Train N°" + i;
 			TrainScript tmpTrainScript = _allTrains[i].GetComponent<TrainScript>();
 			tmpTrainScript._currentRailScript = tmpRailBlock;
+			tmpTrainScript._currentWagonType = TrainScript.WagonType.Engine;
+			tmpTrainScript._trainParts.Add(tmpTrainScript);
+			tmpTrainScript._currentWagonNumber = tmpTrainScript._trainParts.Count -1;
 			tmpTrainScript.ComputeNextRailBlock(true);
 		}
 	}

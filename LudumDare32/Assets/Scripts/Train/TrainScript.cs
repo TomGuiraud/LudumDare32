@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class TrainScript : MonoBehaviour {
 
@@ -8,17 +9,32 @@ public class TrainScript : MonoBehaviour {
 	public RailRoadScript _currentRailScript;
 
 	//Train Parameters_linkedRailScriptAvailable
-
 	public float _trainSpeed = 1.0f;
-	public float _trainRotationSpeed = 1.0f;
+	private float _trainBaseSpeed;
+	public float _trainMaxSpeed = 15.0f;
+	public float _trainAccelerationSpeed = 1.0f;
+	public float _trainDecelerationSpeed = 1.0f;
+
+	//WagonGeneration
+	public List<TrainScript> _trainParts;
+	public enum WagonType {Engine, Normal};
+	public WagonType _currentWagonType;
+	public int _currentWagonNumber;
+	public bool _isGeneratingWagons;
+	public int _wagonTargetNumber = 3;
 
 	// Use this for initialization
 	void Start () {
-	
+		_trainBaseSpeed = _trainSpeed;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if (_currentWagonType == WagonType.Engine) {
+			SpeedHandler ();
+		} else {
+			_trainSpeed = _trainParts[0]._trainSpeed;
+		}
 		MovementHandler ();
 
 		if (Vector3.Distance (this.transform.position, _currentRailScript.transform.position) < 0.1f) {
@@ -32,27 +48,84 @@ public class TrainScript : MonoBehaviour {
 		this.transform.position = Vector3.MoveTowards (this.transform.position, _currentRailScript.transform.position, Time.deltaTime * _trainSpeed);						 
 	}
 
+	public void SpeedHandler (){
+		if (_currentRailScript._currentType == RailRoadScript.RailRoadType.OneWay) {
+			_trainSpeed = Mathf.Lerp (_trainSpeed, _trainMaxSpeed, Time.deltaTime * _trainAccelerationSpeed);
+		} else {
+			_trainSpeed = Mathf.Lerp (_trainSpeed, _trainBaseSpeed, Time.deltaTime * _trainDecelerationSpeed);
+		}
+	}
+
 	//ROTATION------------------------------------------------------------------------------------------------
 
 	public void RotationHandler (){
-		Vector3 relativePosition = _currentRailScript.transform.rotation.eulerAngles - this.transform.rotation.eulerAngles;
-		this.transform.rotation.eulerAngles = relativePosition;
+		Vector3 directionToGo = _currentRailScript.transform.position - this.transform.position;
+		if ((int)directionToGo.x != 0){
+			//Left Or Right
+			if ((int)directionToGo.x > 0){
+				//Right
+				transform.eulerAngles = Vector3.zero;
+			}else{
+				//Left
+				transform.eulerAngles = Vector3.forward * 180;
+			}
+		}else{
+			if ((int)directionToGo.y > 0){
+				transform.eulerAngles = Vector3.forward * 90;
+			}else{
+				transform.eulerAngles = Vector3.forward * -90;
+
+			}
+		}
 	}
 
 	//DESTINATION COMPUTING-----------------------------------------------------------------------------------
 
 	public void ComputeNextRailBlock (bool firstTime){
-		bool tmpAvailableBlock = false;
-		while (tmpAvailableBlock == false) {
-			RailRoadScript tmpRS = _currentRailScript._linkedRailRoadBlocks[Random.Range(0, _currentRailScript._linkedRailRoadBlocks.Count)];
-			print (this.transform.name + " : " + tmpRS);
-			if (firstTime || tmpRS != _previousRailScript){
-				_previousRailScript = _currentRailScript;
-				_currentRailScript = tmpRS;
-				RotationHandler();
-				tmpAvailableBlock = true;
+		if (_currentWagonType == WagonType.Engine) {
+			bool tmpAvailableBlock = false;
+			while (tmpAvailableBlock == false) {
+				RailRoadScript tmpRS = _currentRailScript._linkedRailRoadBlocks [Random.Range (0, _currentRailScript._linkedRailRoadBlocks.Count)];
+				if (firstTime || tmpRS != _previousRailScript) {
+					//Generate Wagon if it's needed
+					if (_isGeneratingWagons && firstTime == false ) {
+						WagonGeneration ();
+						if (_trainParts.Count == _wagonTargetNumber) {
+							_isGeneratingWagons = false;
+						}
+					}
+
+					//Compute next destination
+					_previousRailScript = _currentRailScript;
+					_currentRailScript = tmpRS;
+
+					//Adapt rotation to next destination
+					RotationHandler ();
+
+					tmpAvailableBlock = true;
+				}
 			}
+		} else {
+			_previousRailScript = _currentRailScript;
+			_currentRailScript = _trainParts[_currentWagonNumber-1]._previousRailScript;
+			//Adapt rotation to next destination
+			RotationHandler ();
 		}
+	}
+
+	//WAGON GENERATION----------------------------------------------------------------------------------------
+
+	public void WagonGeneration (){
+		GameObject tmpWagon = Instantiate (GameManagerScript._instance._wagonPrefab, _trainParts[_trainParts.Count - 1]._previousRailScript.transform.position, Quaternion.identity) as GameObject;
+		TrainScript tmpTS = tmpWagon.GetComponent<TrainScript> ();
+		tmpTS._currentWagonType = WagonType.Normal;
+		_trainParts.Add (tmpTS);
+		tmpTS._currentWagonNumber = _trainParts.Count - 1;
+		foreach (TrainScript tp in _trainParts) {
+			tp._trainParts = _trainParts;
+		}
+		tmpTS._isGeneratingWagons = false;
+		tmpTS.ComputeNextRailBlock (true);
 	}
 
 }
