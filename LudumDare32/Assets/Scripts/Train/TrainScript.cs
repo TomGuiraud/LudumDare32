@@ -182,4 +182,20 @@ public class TrainScript : MonoBehaviour {
 		tmpTS.ComputeNextRailBlock (true);
 	}
 
+	//COLLISIONS----------------------------------------------------------------------------------------------------------------------------------
+	private void OnCollisionEnter2D (Collision2D other){
+		if (other.transform.tag == "Player") {
+			//Player is dead
+		} else if (_currentWagonType == WagonType.Engine && other.transform.tag == "Wagon") {
+			
+		} else if (_currentWagonType == WagonType.Engine && other.transform.tag == "Engine") {
+			
+		} else if (_currentWagonType == WagonType.Normal && other.transform.tag == "Wagon") {
+
+		}
+	}
+	
+	public void DestructionLoop (){
+		
+	}
 }

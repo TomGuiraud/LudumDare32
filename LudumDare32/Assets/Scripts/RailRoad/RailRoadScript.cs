@@ -56,6 +56,9 @@ public class RailRoadScript : MonoBehaviour {
 			SwitchOpenWays();
 		}
 	}
+	
+
+	//LINKER--------------------------------------------------------------------------------------------------------------------------------------
 
 	void RailRoadLinker (){
 		_linkedRailRoadList = new List<RailLink> ();
@@ -79,6 +82,8 @@ public class RailRoadScript : MonoBehaviour {
 			}
 		}
 	}
+
+	//SWITCHES------------------------------------------------------------------------------------------------------------------------------------
 
 	void ComputeOpenWay (){
 		switch (_currentType) {
@@ -152,5 +157,5 @@ public class RailRoadScript : MonoBehaviour {
 			}
 		}
 	}
-
+	//--------------------------------------------------------------------------------------------------------------------------------------------
 }
