@@ -6,12 +6,7 @@ public class BasicControlsP1 : MonoBehaviour {
 
 	public int PlayerNumber;
 	public GameObject spawn;
-	//public Vector2 propulsion;
-	//public Vector2 backing;
 	public float acceleration;
-	//public Vector2 turningleft;
-	//public Vector2 turningright;
-	//public float speed;
 	public float rotationspeed;
 	public float backingspeed;
 	public Rigidbody2D rigidbody;
@@ -23,23 +18,13 @@ public class BasicControlsP1 : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//player_coll = this.GetComponent<Rigidbody2D> ();
-		spawnpoint = spawn.transform.position;
-		this.transform.position = spawnpoint;
-
-		rigidbody = this.GetComponent<Rigidbody2D> ();
+		//variable initialisation
+		if (spawn != null) {
+			spawnpoint = spawn.transform.position;
+			this.transform.position = spawnpoint;
+		}
 
 	}
-
-	/*void OnCollisionEnter2D (Collision2D col){
-
-		if (col.gameObject) 
-		{
-			//Debug.Log ("touché");
-			this.transform.Translate (new Vector3 (0f, -15f, 0f) * backingspeed * Time.deltaTime);
-			//this.GetComponent<Rigidbody2D>().AddForce(repulse);
-		}
-	}*/
 
 	// Update is called once per frame
 	void Update () {
@@ -48,9 +33,8 @@ public class BasicControlsP1 : MonoBehaviour {
 		if (PlayerNumber == 1) {
 
 			if (Input.GetKey (KeyCode.W)) {
-				//this.transform.Translate (new Vector3 (0f, 1f, 0f) * speed * Time.deltaTime);
-				//rigidbody.AddRelativeForce((propulsion) * acceleration * Time.deltaTime);
 				rigidbody.velocity = this.transform.up * acceleration * Time.deltaTime;
+				print ("Forward");
 			}
 			
 			if (Input.GetKeyUp (KeyCode.W)) {
@@ -59,17 +43,19 @@ public class BasicControlsP1 : MonoBehaviour {
 			}
 			
 			if (Input.GetKey (KeyCode.S)) {
-				//this.transform.Translate (new Vector3 (0f, -1f, 0f) * speed * Time.deltaTime);
 				rigidbody.velocity = this.transform.up * backingspeed * Time.deltaTime * -1;
+				print ("Backward");
 			}
 
 			if (Input.GetKeyUp (KeyCode.S)) {
 				rigidbody.velocity = new Vector2 (0f,0f);
 				rigidbody.angularVelocity = 0;
+				print ("Left");
 			}
 			
 			if (Input.GetKey (KeyCode.A)) {
 				this.transform.Rotate (new Vector3 (0f, 0f, 1f) * rotationspeed * Time.deltaTime);
+				print ("Right");
 				//rigidbody.AddRelativeForce(turningleft);
 			}
 			
@@ -82,8 +68,6 @@ public class BasicControlsP1 : MonoBehaviour {
 		if (PlayerNumber == 2) {
 			
 			if (Input.GetKey (KeyCode.UpArrow)) {
-				//this.transform.Translate (new Vector3 (0f, 1f, 0f) * speed * Time.deltaTime);
-				//rigidbody.AddRelativeForce((propulsion) * acceleration * Time.deltaTime);
 				rigidbody.velocity = this.transform.up * acceleration * Time.deltaTime;
 			}
 
@@ -93,7 +77,6 @@ public class BasicControlsP1 : MonoBehaviour {
 			}
 
 			if (Input.GetKey (KeyCode.DownArrow)) {
-				//this.transform.Translate (new Vector3 (0f, -1f, 0f) * speed * Time.deltaTime);
 				rigidbody.velocity = this.transform.up * backingspeed * Time.deltaTime * -1;
 			}
 
@@ -104,21 +87,12 @@ public class BasicControlsP1 : MonoBehaviour {
 			
 			if (Input.GetKey (KeyCode.LeftArrow)) {
 				this.transform.Rotate (new Vector3 (0f, 0f, 1f) * rotationspeed * Time.deltaTime);
-				//rigidbody.AddRelativeForce(turningleft);
 			}
 			
 			if (Input.GetKey (KeyCode.RightArrow)) {
 				this.transform.Rotate (new Vector3 (0f, 0f, -1f) * rotationspeed * Time.deltaTime);
-				//rigidbody.AddRelativeForce(turningright);
 			}
 
-					//float distanceToObstacle = hit.distance;
-			}
 		}
-
-	/*public void OntriggerExit2D (Collider2D other) {
-
-		Debug.Log ("trop loin");
-		}*/
-
+	}
 }

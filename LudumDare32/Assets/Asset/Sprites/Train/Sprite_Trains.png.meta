@@ -1,0 +1,231 @@
+fileFormatVersion: 2
+guid: 68680fe0b8c6b234b8b71191879e8050
+timeCreated: 1429464204
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Sprite_Trains_0
+    21300002: Sprite_Trains_1
+    21300004: Sprite_Trains_2
+    21300006: Sprite_Trains_3
+    21300008: Sprite_Trains_4
+    21300010: Sprite_Trains_5
+    21300012: Sprite_Trains_6
+    21300014: Sprite_Trains_7
+    21300016: Sprite_Trains_8
+    21300018: Sprite_Trains_9
+    21300020: Sprite_Trains_10
+    21300022: Sprite_Trains_11
+    21300024: Sprite_Trains_12
+    21300026: Sprite_Trains_13
+    21300028: Sprite_Trains_14
+    21300030: Sprite_Trains_15
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Sprite_Trains_0
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 432
+        width: 431
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Sprite_Trains_1
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 436
+        width: 433
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Sprite_Trains_2
+      rect:
+        serializedVersion: 2
+        x: 998
+        y: 436
+        width: 432
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Sprite_Trains_3
+      rect:
+        serializedVersion: 2
+        x: 1475
+        y: 436
+        width: 431
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Sprite_Trains_4
+      rect:
+        serializedVersion: 2
+        x: 1952
+        y: 436
+        width: 431
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Sprite_Trains_5
+      rect:
+        serializedVersion: 2
+        x: 2429
+        y: 436
+        width: 431
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Sprite_Trains_6
+      rect:
+        serializedVersion: 2
+        x: 2906
+        y: 436
+        width: 431
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Sprite_Trains_7
+      rect:
+        serializedVersion: 2
+        x: 3383
+        y: 414
+        width: 639
+        height: 322
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Sprite_Trains_8
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 67
+        width: 431
+        height: 280
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Sprite_Trains_9
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 69
+        width: 433
+        height: 280
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Sprite_Trains_10
+      rect:
+        serializedVersion: 2
+        x: 998
+        y: 69
+        width: 432
+        height: 280
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Sprite_Trains_11
+      rect:
+        serializedVersion: 2
+        x: 1475
+        y: 69
+        width: 431
+        height: 280
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Sprite_Trains_12
+      rect:
+        serializedVersion: 2
+        x: 1952
+        y: 69
+        width: 431
+        height: 280
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Sprite_Trains_13
+      rect:
+        serializedVersion: 2
+        x: 2429
+        y: 69
+        width: 431
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Sprite_Trains_14
+      rect:
+        serializedVersion: 2
+        x: 2906
+        y: 69
+        width: 431
+        height: 280
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Sprite_Trains_15
+      rect:
+        serializedVersion: 2
+        x: 3383
+        y: 49
+        width: 639
+        height: 320
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -7,6 +7,7 @@ public class RailRoadScript : MonoBehaviour {
 	//public bool _isAvailable = true;
 	public enum RailRoadType {OneWay , ThreeWay , TurningPoint , Cross}
 	public RailRoadType _currentType;
+	public switch_behavior _switcher;
 
 	//Linked Block related var
 	[System.Serializable]
@@ -39,8 +40,9 @@ public class RailRoadScript : MonoBehaviour {
 
 		RailRoadLinker ();
 
-
-
+		if (_switcher != null) {
+			_switcher._railRoad = this;
+		}
 	}
 
 	void Start () {
@@ -52,7 +54,6 @@ public class RailRoadScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown("e")){
-			print ("ok");
 			SwitchOpenWays();
 		}
 	}

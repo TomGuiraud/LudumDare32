@@ -16,12 +16,20 @@ public class TrainScript : MonoBehaviour {
 	public float _trainDecelerationSpeed = 1.0f;
 
 	//WagonGeneration
+	public string _owner;
 	public List<TrainScript> _trainParts;
 	public enum WagonType {Engine, Normal};
 	public WagonType _currentWagonType;
 	public int _currentWagonNumber;
 	public bool _isGeneratingWagons;
 	public int _wagonTargetNumber = 3;
+
+	//Sprites
+	public SpriteRenderer _mainSprites;
+	public Sprite[] _engineSprites;
+	public Sprite[] _player1WagonSprites;
+	public Sprite[] _player2WagonSprites;
+
 
 	// Use this for initialization
 	void Start () {
@@ -172,6 +180,7 @@ public class TrainScript : MonoBehaviour {
 	public void WagonGeneration (){
 		GameObject tmpWagon = Instantiate (GameManagerScript._instance._wagonPrefab, _trainParts[_trainParts.Count - 1]._previousRailScript.transform.position, Quaternion.identity) as GameObject;
 		TrainScript tmpTS = tmpWagon.GetComponent<TrainScript> ();
+		tmpTS._owner = _owner;
 		tmpTS._currentWagonType = WagonType.Normal;
 		_trainParts.Add (tmpTS);
 		tmpTS._currentWagonNumber = _trainParts.Count - 1;
@@ -179,23 +188,64 @@ public class TrainScript : MonoBehaviour {
 			tp._trainParts = _trainParts;
 		}
 		tmpTS._isGeneratingWagons = false;
+		if (_owner == "Player0") {
+			tmpTS._mainSprites.sprite = tmpTS._player1WagonSprites[Random.Range(0 , tmpTS._player1WagonSprites.Length)];
+		} else {
+			tmpTS._mainSprites.sprite = tmpTS._player2WagonSprites[Random.Range(0 , tmpTS._player2WagonSprites.Length)];
+		}
+
 		tmpTS.ComputeNextRailBlock (true);
 	}
 
 	//COLLISIONS----------------------------------------------------------------------------------------------------------------------------------
-	private void OnCollisionEnter2D (Collision2D other){
+	private void OnTriggerEnter2D (Collider2D other){
+		TrainScript tmpTS;
 		if (other.transform.tag == "Player") {
 			//Player is dead
-		} else if (_currentWagonType == WagonType.Engine && other.transform.tag == "Wagon") {
-			
-		} else if (_currentWagonType == WagonType.Engine && other.transform.tag == "Engine") {
-			
-		} else if (_currentWagonType == WagonType.Normal && other.transform.tag == "Wagon") {
 
+		} else if (_currentWagonType == WagonType.Engine && other.transform.tag == "Wagon") {
+			//Engine against Engine
+			tmpTS = other.GetComponent<TrainScript>();
+			if (tmpTS._owner != _owner){
+				tmpTS.StartCoroutine("DestructionLoop", true);
+			}
+		} else if (_currentWagonType == WagonType.Engine && other.transform.tag == "Engine") {
+			//Engine against Engine
+			tmpTS = other.GetComponent<TrainScript>();
+			if (tmpTS._owner != _owner){
+				tmpTS.StartCoroutine("DestructionLoop", true);
+				StartCoroutine("DestructionLoop", true);
+			}
+		} else if (_currentWagonType == WagonType.Normal && other.transform.tag == "Wagon") {
+			//Wagon Against Wagon
+			tmpTS = other.GetComponent<TrainScript>();
+			if (tmpTS._owner != _owner){
+				tmpTS.StartCoroutine("DestructionLoop", true);
+				StartCoroutine("DestructionLoop", true);
+			}
 		}
 	}
-	
-	public void DestructionLoop (){
-		
+
+	public IEnumerator DestructionLoop (bool immediate){
+		//Depending is it it the first destruction, destroy imediatly or not;
+		if (!immediate) {
+			yield return new WaitForSeconds(Random.Range(0.05f , 1.0f));
+		}
+
+		//If it is not the last wagon, launch destruction loop on next wagon
+		if( _currentWagonNumber + 1 < _trainParts.Count){
+			if (_trainParts[_currentWagonNumber +1] != null){
+				_trainParts[_currentWagonNumber +1].StartCoroutine("DestructionLoop", false);
+			}else{
+				_trainParts.RemoveAt(_currentWagonNumber +1);
+			}
+		}
+		//Feedback
+
+		//Destroy
+		Destroy (this.gameObject);
+
+
 	}
+
 }
