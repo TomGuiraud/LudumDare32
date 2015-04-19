@@ -8,6 +8,7 @@ public class RailRoadScript : MonoBehaviour {
 	public enum RailRoadType {OneWay , ThreeWay , TurningPoint , Cross}
 	public RailRoadType _currentType;
 	public switch_behavior _switcher;
+	public Animator _switchSpriteAnimator;
 
 	//Linked Block related var
 	[System.Serializable]
@@ -98,6 +99,8 @@ public class RailRoadScript : MonoBehaviour {
 				_linkedRailRoadList[1]._isAvailable = true;
 			}else{
 				_linkedRailRoadList[3]._isAvailable = true;
+				_switchSpriteAnimator.SetTrigger("Switch");
+
 			}
 
 			//Adjust FeedbackColor
@@ -111,6 +114,8 @@ public class RailRoadScript : MonoBehaviour {
 			//Set random the first way available
 			if (Random.Range(0,101) % 2 == 0){
 				_linkedRailRoadList[0]._isAvailable = true;
+				_switchSpriteAnimator.SetTrigger("Switch");
+
 			}else{
 				_linkedRailRoadList[2]._isAvailable = true;
 			}
@@ -127,9 +132,12 @@ public class RailRoadScript : MonoBehaviour {
 			if (_linkedRailRoadList[1]._isAvailable){
 				_linkedRailRoadList[1]._isAvailable = false;
 				_linkedRailRoadList[3]._isAvailable = true;
+				_switchSpriteAnimator.SetTrigger("Switch");
 			}else{
 				_linkedRailRoadList[1]._isAvailable = true;
 				_linkedRailRoadList[3]._isAvailable = false;
+				_switchSpriteAnimator.SetTrigger("Switch");
+
 			}
 			UpdateAvailableFeedbacks(false);
 			break;
@@ -137,9 +145,13 @@ public class RailRoadScript : MonoBehaviour {
 			if (_linkedRailRoadList[0]._isAvailable){
 				_linkedRailRoadList[0]._isAvailable = false;
 				_linkedRailRoadList[2]._isAvailable = true;
+				_switchSpriteAnimator.SetTrigger("Switch");
+
 			}else{
 				_linkedRailRoadList[0]._isAvailable = true;
 				_linkedRailRoadList[2]._isAvailable = false;
+				_switchSpriteAnimator.SetTrigger("Switch");
+
 			}
 			UpdateAvailableFeedbacks(false);
 			break;
@@ -150,6 +162,7 @@ public class RailRoadScript : MonoBehaviour {
 		foreach( RailLink rL in _linkedRailRoadList){
 			if(_isFeedbackCreated){
 				rL._feedbackReference = Instantiate (GameManagerScript._instance._availableFB, rL._feedbackReference.transform.position, Quaternion.identity) as GameObject;
+				rL._feedbackReference.gameObject.hideFlags = HideFlags.HideInHierarchy;
 			}
 			if (rL._isAvailable){
 				rL._feedbackReference.GetComponent<Renderer>().material.color = Color.green;

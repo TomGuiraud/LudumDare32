@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class GameManagerScript : MonoBehaviour {
 
@@ -12,9 +13,19 @@ public class GameManagerScript : MonoBehaviour {
 	public GameObject _availableFB;
 	private GameObject[] _allTrains;
 
+	public bool _playerOneShouldLoose;
+	public bool _playerTwoShouldLoose;
+
+	public GameObject _player1WinScreen;
+	public GameObject _player2WinScreen;
+
 	public static List<RailRoadScript> _railRoadScript;
 
 	void Awake (){
+		_railRoadScript = new List<RailRoadScript> ();
+		_playerOneShouldLoose = false;
+		_playerTwoShouldLoose = false;
+
 		if (_instance == null) {
 			_instance = this;
 		}
@@ -59,23 +70,25 @@ public class GameManagerScript : MonoBehaviour {
 	}
 
 	private void CheckVictoryConditions (){
-		if (_allTrains [0] != null && _allTrains [1] == null) {
+		if (_playerTwoShouldLoose) {
 			//Player One Wins
 			print ("Player One Wins");
-			Invoke ("ReloadScene", 3.0f);
-		} else if (_allTrains [0] == null && _allTrains [1] != null) {
+			_player1WinScreen.SetActive(true);
+			Invoke ("ReloadScene", 8.0f);
+		} else if (_playerOneShouldLoose) {
 			//Player Two Wins
 			print ("Player Two Wins");
-			Invoke ("ReloadScene", 3.0f);
+			_player2WinScreen.SetActive(true);
+			Invoke ("ReloadScene", 8.0f);
 		} else if (_allTrains [0] == null && _allTrains [1] == null) {
 			//Draw
 			print ("Draw");
-			Invoke ("ReloadScene", 3.0f);
+			Invoke ("ReloadScene", 8.0f);
 		}
 	}
 
 	private void ReloadScene (){
-		Application.LoadLevel (Application.levelCount);
+		Application.LoadLevel ("MenuScene");
 	}
 
 

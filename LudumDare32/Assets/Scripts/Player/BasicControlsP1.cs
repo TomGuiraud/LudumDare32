@@ -10,6 +10,7 @@ public class BasicControlsP1 : MonoBehaviour {
 	public float rotationspeed;
 	public float backingspeed;
 	public Rigidbody2D rigidbody;
+	public Animator _animator;
 
 	private Vector3 spawnpoint;
 	//public Vector2 repulse;
@@ -30,27 +31,39 @@ public class BasicControlsP1 : MonoBehaviour {
 	void Update () {
 
 
+
 		if (PlayerNumber == 1) {
+
+			if (Input.GetKeyDown(KeyCode.Space)){
+				_animator.SetTrigger("hasActivatedSwitcher");
+			}
 
 			if (Input.GetKey (KeyCode.W)) {
 				rigidbody.velocity = this.transform.up * acceleration * Time.deltaTime;
 				print ("Forward");
+				_animator.SetBool("isWalking", true);
 			}
 			
 			if (Input.GetKeyUp (KeyCode.W)) {
 				rigidbody.velocity = new Vector2 (0f,0f);
 				rigidbody.angularVelocity = 0;
+				_animator.SetBool("isWalking", false);
+
 			}
 			
 			if (Input.GetKey (KeyCode.S)) {
 				rigidbody.velocity = this.transform.up * backingspeed * Time.deltaTime * -1;
 				print ("Backward");
+				_animator.SetBool("isWalking", true);
+
 			}
 
 			if (Input.GetKeyUp (KeyCode.S)) {
 				rigidbody.velocity = new Vector2 (0f,0f);
 				rigidbody.angularVelocity = 0;
 				print ("Left");
+				_animator.SetBool("isWalking", false);
+
 			}
 			
 			if (Input.GetKey (KeyCode.A)) {
@@ -66,23 +79,35 @@ public class BasicControlsP1 : MonoBehaviour {
 		}
 	
 		if (PlayerNumber == 2) {
+
+			if (Input.GetKeyDown(KeyCode.RightControl)){
+				_animator.SetTrigger("hasActivatedSwitcher");
+			}
 			
 			if (Input.GetKey (KeyCode.UpArrow)) {
 				rigidbody.velocity = this.transform.up * acceleration * Time.deltaTime;
+				_animator.SetBool("isWalking", true);
+
 			}
 
 			if (Input.GetKeyUp (KeyCode.UpArrow)) {
 				rigidbody.velocity = new Vector2 (0f,0f);
 				rigidbody.angularVelocity = 0;
+				_animator.SetBool("isWalking", false);
+
 			}
 
 			if (Input.GetKey (KeyCode.DownArrow)) {
 				rigidbody.velocity = this.transform.up * backingspeed * Time.deltaTime * -1;
+				_animator.SetBool("isWalking", true);
+
 			}
 
 			if (Input.GetKeyUp (KeyCode.DownArrow)) {
 				rigidbody.velocity = new Vector2 (0f,0f);
 				rigidbody.angularVelocity = 0;
+				_animator.SetBool("isWalking", false);
+
 			}
 			
 			if (Input.GetKey (KeyCode.LeftArrow)) {

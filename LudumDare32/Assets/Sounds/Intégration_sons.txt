@@ -1,0 +1,12 @@
+
+ trainbasicloop : son d'ambiance toujours présent
+
+ horn1, horn2, steampressure : sons d'ambiance à faire popper random
+
+ crash1, crash2 : déclencher random l'un ou l'autre quand un train perd un wagon mais pas la locomotive
+
+ dying1, dying2  : déclencher random l'un ou l'autre quand un player se fait écraser
+
+ switching : déclencher quand player intéragit avec switch
+
+ finalsplosion : déclencher quand une ou les deux locomotives sont détruites

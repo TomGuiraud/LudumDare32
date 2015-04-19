@@ -30,6 +30,14 @@ public class TrainScript : MonoBehaviour {
 	public Sprite[] _player1WagonSprites;
 	public Sprite[] _player2WagonSprites;
 
+	//Sound
+	public AudioSource _basicLoop;
+	public AudioSource[] _horns;
+	public AudioSource _steamPressure;
+
+	//Feedbacks
+	public GameObject _explosionFeedback;
+	public GameObject _bloodSplash;
 
 	// Use this for initialization
 	void Start () {
@@ -39,6 +47,16 @@ public class TrainScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (_currentWagonType == WagonType.Engine) {
+
+			if (!_isGeneratingWagons){
+				if (_owner == "Player0" && _trainParts.Count == 1){
+					GameManagerScript._instance._playerOneShouldLoose = true;
+				}
+				if (_owner == "Player1" && _trainParts.Count == 1){
+					GameManagerScript._instance._playerTwoShouldLoose = true;
+				}
+			}
+
 			SpeedHandler ();
 		} else {
 			_trainSpeed = _trainParts[0]._trainSpeed;
@@ -59,6 +77,9 @@ public class TrainScript : MonoBehaviour {
 	public void SpeedHandler (){
 		if (_currentRailScript._currentType == RailRoadScript.RailRoadType.OneWay) {
 			_trainSpeed = Mathf.Lerp (_trainSpeed, _trainMaxSpeed, Time.deltaTime * _trainAccelerationSpeed);
+			if (!_steamPressure.isPlaying){
+				_steamPressure.Play();
+			}
 		} else {
 			_trainSpeed = Mathf.Lerp (_trainSpeed, _trainBaseSpeed, Time.deltaTime * _trainDecelerationSpeed);
 		}
@@ -73,6 +94,7 @@ public class TrainScript : MonoBehaviour {
 			if ((int)directionToGo.x > 0){
 				//Right
 				transform.eulerAngles = Vector3.zero;
+
 			}else{
 				//Left
 				transform.eulerAngles = Vector3.forward * 180;
@@ -121,6 +143,8 @@ public class TrainScript : MonoBehaviour {
 							break;
 						}
 					}
+
+					_horns[Random.Range(0, _horns.Length)].Play();
 					break;
 				case RailRoadScript.RailRoadType.ThreeWay:
 					//find previous reference to current reference link in _current reference linkList
@@ -140,6 +164,7 @@ public class TrainScript : MonoBehaviour {
 							break;
 						}
 					}
+					_horns[Random.Range(0, _horns.Length)].Play();
 
 					break;
 				}
@@ -202,6 +227,8 @@ public class TrainScript : MonoBehaviour {
 		TrainScript tmpTS;
 		if (other.transform.tag == "Player") {
 			//Player is dead
+			Instantiate (_bloodSplash, other.transform.position, Quaternion.identity);
+			Destroy(other.gameObject);
 
 		} else if (_currentWagonType == WagonType.Engine && other.transform.tag == "Wagon") {
 			//Engine against Engine
@@ -229,7 +256,7 @@ public class TrainScript : MonoBehaviour {
 	public IEnumerator DestructionLoop (bool immediate){
 		//Depending is it it the first destruction, destroy imediatly or not;
 		if (!immediate) {
-			yield return new WaitForSeconds(Random.Range(0.05f , 1.0f));
+			yield return new WaitForSeconds(0.5f);
 		}
 
 		//If it is not the last wagon, launch destruction loop on next wagon
@@ -241,11 +268,16 @@ public class TrainScript : MonoBehaviour {
 			}
 		}
 		//Feedback
-
+		Instantiate (_explosionFeedback, this.transform.position, Quaternion.identity);
 		//Destroy
 		Destroy (this.gameObject);
 
-
 	}
+
+	//SOUND---------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+	//--------------------------------------------------------------------------------------------------------------------------------------------
 
 }
