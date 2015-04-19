@@ -85,7 +85,61 @@ public class TrainScript : MonoBehaviour {
 		if (_currentWagonType == WagonType.Engine) {
 			bool tmpAvailableBlock = false;
 			while (tmpAvailableBlock == false) {
-				RailRoadScript tmpRS = _currentRailScript._linkedRailRoadBlocks [Random.Range (0, _currentRailScript._linkedRailRoadBlocks.Count)];
+				RailRoadScript tmpRS = null;
+				RailRoadScript.RailLink tmpJustEndedLink = null;
+
+				switch (_currentRailScript._currentType){
+				case RailRoadScript.RailRoadType.OneWay:
+					//Old Way - For turning Point And One way
+					tmpRS = _currentRailScript._linkedRailRoadList [Random.Range (0, _currentRailScript._linkedRailRoadList.Count)]._railLinked;
+					break;
+				case RailRoadScript.RailRoadType.TurningPoint:
+					//Old Way - For turning Point And One way
+					tmpRS = _currentRailScript._linkedRailRoadList [Random.Range (0, _currentRailScript._linkedRailRoadList.Count)]._railLinked;
+					break;
+				case RailRoadScript.RailRoadType.Cross:
+					//find previous reference to current reference link in _current reference linkList
+					foreach (RailRoadScript.RailLink links in _currentRailScript._linkedRailRoadList){
+						if (links._railLinked == _previousRailScript){
+							tmpJustEndedLink = links;
+							break;
+						}
+					}
+
+					//Find the other Available/Unavailable link and attribute next destination
+					foreach (RailRoadScript.RailLink links in _currentRailScript._linkedRailRoadList){
+						if (links != tmpJustEndedLink && links._isAvailable == tmpJustEndedLink._isAvailable){
+							tmpRS = links._railLinked;
+							break;
+						}
+					}
+					break;
+				case RailRoadScript.RailRoadType.ThreeWay:
+					//find previous reference to current reference link in _current reference linkList
+					foreach (RailRoadScript.RailLink links in _currentRailScript._linkedRailRoadList){
+						if (links._railLinked == _previousRailScript || firstTime){
+							tmpJustEndedLink = links;
+							break;
+						}
+					}
+
+					foreach (RailRoadScript.RailLink links in _currentRailScript._linkedRailRoadList){
+						if (links != tmpJustEndedLink && tmpJustEndedLink._isAvailable == true && links._isAvailable == true){
+							tmpRS = links._railLinked;
+							break;
+						}else if (links != tmpJustEndedLink && tmpJustEndedLink._isAvailable == false && !links._cannoBeDisabled){
+							tmpRS = links._railLinked;
+							break;
+						}
+					}
+
+					break;
+				}
+
+
+				//New Way
+
+
 				if (firstTime || tmpRS != _previousRailScript) {
 					//Generate Wagon if it's needed
 					if (_isGeneratingWagons && firstTime == false ) {
