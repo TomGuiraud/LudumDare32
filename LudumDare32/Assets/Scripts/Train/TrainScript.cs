@@ -225,10 +225,10 @@ public class TrainScript : MonoBehaviour {
 	//COLLISIONS----------------------------------------------------------------------------------------------------------------------------------
 	private void OnTriggerEnter2D (Collider2D other){
 		TrainScript tmpTS;
+		print ("Collide: " + other.name);
 		if (other.transform.tag == "Player") {
 			//Player is dead
-			Instantiate (_bloodSplash, other.transform.position, Quaternion.identity);
-			Destroy(other.gameObject);
+			other.transform.parent.GetComponent<BasicControlsP1>().StartCoroutine("Death");
 
 		} else if (_currentWagonType == WagonType.Engine && other.transform.tag == "Wagon") {
 			//Engine against Engine

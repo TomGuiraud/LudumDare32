@@ -9,6 +9,10 @@ public class switch_behavior : MonoBehaviour {
 	public RailRoadScript _railRoad;
 	private AudioSource _sound;
 
+	public SpriteRenderer _controlFeedback;
+	public Color _player1Feedback;
+	public Color _player2Feedback;
+
 	// Use this for initialization
 	void Start () {
 		_sound = GetComponent<AudioSource> ();
@@ -29,8 +33,12 @@ public class switch_behavior : MonoBehaviour {
 		if (other.tag == "Player") {
 			if (other.transform.parent.name == "Player1"){
 				_player1Inside = true;
+				_controlFeedback.gameObject.SetActive(true);
+				_controlFeedback.color = _player1Feedback;
 			}else{ 
 				_player2Inside = true;
+				_controlFeedback.gameObject.SetActive(true);
+				_controlFeedback.color = _player2Feedback;
 			}
 			
 		}
@@ -40,8 +48,10 @@ public class switch_behavior : MonoBehaviour {
 		if (other.tag == "Player") {
 			if (other.transform.parent.name == "Player1"){
 				_player1Inside = false;
+				_controlFeedback.gameObject.SetActive(false);
 			}else{ 
 				_player2Inside = false;
+				_controlFeedback.gameObject.SetActive(false);
 			}
 			
 		}

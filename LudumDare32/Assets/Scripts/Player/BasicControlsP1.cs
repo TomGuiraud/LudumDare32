@@ -17,6 +17,8 @@ public class BasicControlsP1 : MonoBehaviour {
 
 	private Rigidbody2D player_coll; //= player.GetComponent<Rigidbody2D>();
 
+	public GameObject _bloodSplash;
+
 	// Use this for initialization
 	void Start () {
 		//variable initialisation
@@ -120,4 +122,11 @@ public class BasicControlsP1 : MonoBehaviour {
 
 		}
 	}
+
+	public IEnumerator Death (){
+		_bloodSplash.SetActive (true);
+		yield return new WaitForSeconds(0.4f);
+		Destroy (this.gameObject);
+	}
+
 }
