@@ -48,15 +48,6 @@ public class TrainScript : MonoBehaviour {
 	void Update () {
 		if (_currentWagonType == WagonType.Engine) {
 
-			if (!_isGeneratingWagons){
-				if (_owner == "Player0" && _trainParts.Count == 1){
-					GameManagerScript._instance._playerOneShouldLoose = true;
-				}
-				if (_owner == "Player1" && _trainParts.Count == 1){
-					GameManagerScript._instance._playerTwoShouldLoose = true;
-				}
-			}
-
 			SpeedHandler ();
 		} else {
 			_trainSpeed = _trainParts[0]._trainSpeed;
@@ -235,7 +226,15 @@ public class TrainScript : MonoBehaviour {
 			tmpTS = other.GetComponent<TrainScript>();
 			if (tmpTS._owner != _owner){
 				tmpTS.StartCoroutine("DestructionLoop", true);
+
+				if (_owner == "Player0"){
+					GameManagerScript._instance._playerTwoShouldLoose = true;
+				}else{
+					GameManagerScript._instance._playerOneShouldLoose = true;
+				}
 			}
+
+
 		} else if (_currentWagonType == WagonType.Engine && other.transform.tag == "Engine") {
 			//Engine against Engine
 			tmpTS = other.GetComponent<TrainScript>();
@@ -243,6 +242,7 @@ public class TrainScript : MonoBehaviour {
 				tmpTS.StartCoroutine("DestructionLoop", true);
 				StartCoroutine("DestructionLoop", true);
 			}
+
 		} else if (_currentWagonType == WagonType.Normal && other.transform.tag == "Wagon") {
 			//Wagon Against Wagon
 			tmpTS = other.GetComponent<TrainScript>();

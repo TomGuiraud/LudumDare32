@@ -18,6 +18,7 @@ public class GameManagerScript : MonoBehaviour {
 
 	public GameObject _player1WinScreen;
 	public GameObject _player2WinScreen;
+	public GameObject _draw;
 
 	public static List<RailRoadScript> _railRoadScript;
 
@@ -82,6 +83,7 @@ public class GameManagerScript : MonoBehaviour {
 			Invoke ("ReloadScene", 8.0f);
 		} else if (_allTrains [0] == null && _allTrains [1] == null) {
 			//Draw
+			_draw.SetActive(true);
 			print ("Draw");
 			Invoke ("ReloadScene", 8.0f);
 		}
